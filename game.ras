@@ -70,8 +70,18 @@ begin
 		while(game_running) do
 		begin
 			
+			// Update lives left
+			txt::put_num_at(20,0,lives);
+
+			// Update loot to get
+			txt::put_num_at(1,0,total_loot_count-collected_loot_count);
+			
+			
 			// Get keyboard input
 			key_press:=txt::get_key();
+			
+			txt::move_to(3,0);
+			txt::print_string(#instruction_str, False);
 	
 				// Backup the current position			
 				oldx:=x;
@@ -101,8 +111,10 @@ begin
 		
 				36:
 					begin
+							
+						// loot
 						txt::move_to(3,0);
-						txt::print_string("WOOT!", False);
+						txt::print_string(" LOOT ACQUIRED! ", False);
 						txt::put_char_at(x,y,64);
 						inc(collected_loot_count);
 	
@@ -110,8 +122,9 @@ begin
 					
 				42:
 					begin
+						// trap
 						txt::move_to(3,0);
-						txt::print_string("BOOM!", False);
+						txt::print_string("   LIVE LOST!   ", False);
 						txt::put_char_at(x,y,64);
 						dec(lives);
 					end;	
@@ -120,6 +133,8 @@ begin
 					x:=oldx;
 					y:=oldy;
 				end;
+				
+				
 	
 				if(collected_loot_count=total_loot_count or lives=0) then 
 				begin
@@ -129,6 +144,7 @@ begin
 			
 			end;
 		
+		// End screen
 		txt::cls();
 		txt::move_to(0,4);
 		txt::print_string("GAME OVER!", True);		

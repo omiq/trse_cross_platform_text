@@ -89,7 +89,7 @@ var
     procedure put_ch(CH:byte);
     function get_char_at(_col,_row:byte):byte;
 	function str_compare(str1,str2:pointer):byte;
-
+	procedure put_num_at(_natx,_naty,_nat:byte);
 
 
 @ifdef BBCM
@@ -137,6 +137,25 @@ var
 		end;
 
 		returnvalue(_match);
+	end;
+
+	procedure put_num_at(_natx,_naty,_nat:byte);
+	var
+		tnat:byte;
+	begin
+		if(_nat>10) then
+		begin
+			tnat:=_nat/10;
+			put_char_at(_natx,_naty,tnat+48);
+
+			tnat:=_nat-10;
+			if(tnat=10) then tnat:=0;
+			put_char_at(_natx+1,_naty,tnat+48);
+		end
+		else
+		begin
+			put_char_at(_natx,_naty,_nat+48);
+		end;
 	end;
 
 end.
