@@ -1,0 +1,23 @@
+program key_press;
+@projectsettings "system" BBCM
+@use textmode
+
+var
+	press_str: string = ("PRESS A KEY",0);
+
+begin
+
+	// Clear screen,
+	// Set cursor to 0,0
+	Textmode::cls();
+	
+	// Welcome message 
+	Textmode::move_to(10,10);
+	Textmode::print_string(#press_str, True);
+
+	// Wait for keypress
+	Textmode::wait_key();
+	Textmode::print_string("DONE", False);	
+
+end.
+

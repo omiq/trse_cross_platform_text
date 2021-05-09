@@ -1,0 +1,24 @@
+program hello_world;
+
+@use textmode
+
+var
+	welcome_str: string = ("HELLO!",0);
+
+begin
+
+	// Clear screen,
+	// Set cursor to 0,0
+	Textmode::cls();
+	
+	// Welcome message 
+	Textmode::move_to(0,0);
+	Textmode::print_string(#welcome_str, False);
+	Textmode::move_to(1,10);
+	Textmode::print_string(#welcome_str, False);
+	Textmode::move_to(2,20);
+	Textmode::print_string(#welcome_str, False);	
+
+	loop();
+end.
+

@@ -1,0 +1,17 @@
+program Get_String_Test;
+@use textmode
+var  
+   i: byte; 
+   user_input: pointer;
+
+
+begin
+	
+
+	Textmode::print_string("WELCOME, WHAT IS YOUR NAME?", True);
+	user_input:=Textmode::get_string();
+	Textmode::print_string("HELLO ", False);
+	Textmode::print_string(user_input, True);
+
+	loop();
+end.

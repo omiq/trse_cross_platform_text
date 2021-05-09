@@ -1,0 +1,35 @@
+program interpret;
+@use textmode
+var  
+   i: byte =0; 
+   user_input: pointer;
+   pass: string = ("PASSWORD",0);
+   pp: pointer;
+   match: byte = False;
+
+begin
+	
+
+	Textmode::print_string("ENTER PASSWORD", True);
+	user_input:=Textmode::get_string();
+
+	Textmode::print_string("", True);
+	
+	match:=Textmode::str_compare(user_input,#pass);
+	
+	Textmode::print_string("", True);
+
+	if(match=True) then
+	begin
+		Textmode::print_string("YES! ", False);
+		Textmode::print_string(user_input, True);
+	end
+	else
+	begin
+		Textmode::print_string("WRONG ", False);
+		Textmode::print_string(user_input, True);
+	end;
+
+
+	loop();
+end.

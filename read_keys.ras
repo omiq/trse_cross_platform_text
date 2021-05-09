@@ -1,0 +1,35 @@
+program read_keys;
+@projectsettings "system" BBCM
+@use textmode
+
+var
+	press_str: string = ("PRESS A KEY",0);
+	in_key: byte;
+
+begin
+
+		Textmode::cls();
+		//Textmode::move_to(0,0);
+		//Textmode::put_ch(64);
+		Textmode::move_to(0,2);
+		Textmode::print_string(#press_str, True);
+		
+	
+		in_key:=0;
+		while (1) do
+		begin
+			// Get key
+			in_key:=Textmode::get_key();
+			if(in_key<>13) then
+			begin
+				Textmode::move_to(0,0);
+				Textmode::put_ch(in_key);
+				Textmode::put_char_at(1,1,in_key);
+			end;
+		end;
+		Textmode::cls();
+		Textmode::move_to(0,0);
+		Textmode::print_string("DONE", True);
+		loop();
+end.
+
