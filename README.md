@@ -14,6 +14,7 @@ C64
 
 Vic 20
 
+```
 // Function prototypes
   	procedure cls();
 	procedure cursor_home();
@@ -26,7 +27,8 @@ Vic 20
 	procedure clear_buffer();
 	procedure beep();
 	procedure DefineScreen();
-    procedure put_char_at(_atx,_aty,_atchar:byte);
-    procedure put_ch(CH:byte);
-    function get_char_at(_col,_row:byte):byte;
+        procedure put_char_at(_atx,_aty,_atchar:byte);
+        procedure put_ch(CH:byte);
+        function get_char_at(_col,_row:byte):byte;
 	function str_compare(str1,str2:pointer):byte;
+```
