@@ -1,5 +1,5 @@
 program Get_String_Test;
-@use textmode
+@use txt
 var  
    i: byte; 
    user_input: pointer;
@@ -8,10 +8,10 @@ var
 begin
 	
 
-	Textmode::print_string("WELCOME, WHAT IS YOUR NAME?", True);
-	user_input:=Textmode::get_string();
-	Textmode::print_string("HELLO ", False);
-	Textmode::print_string(user_input, True);
+	txt::print_string("WELCOME, WHAT IS YOUR NAME?", True);
+	user_input:=txt::get_string();
+	txt::print_string("HELLO ", False);
+	txt::print_string(user_input, True);
 
 	loop();
 end.

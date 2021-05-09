@@ -1,0 +1,142 @@
+Unit txt;
+var
+
+	i:byte=0;
+	temp_address_p: pointer;
+	ytab : array[25] of integer=(
+		0,0,0,0,0,0,
+		0,0,0,0,0,0,
+		0,0,0,0,0,0,
+		0,0,0,0,0,0);
+   screen_memory: pointer;
+
+
+
+@ifdef BBCM
+	// Address Locations of operating system functions
+	const	OSBYTE: address =  $FFF4; // Entry point for OSBYTE (AKA VDU command) http://beebwiki.mdfs.net/OSBYTE
+	const 	OSWRCH: address =  $FFEE; // Print the char in accumulator 
+	const 	OSNEWL: address =  $FFE7; // Newline carriage return + new line
+	const 	OSASCI: address =  $FFE3; // Print text + CRNL at ch13 in string
+	const	CRTC_V: address =  $FE00; // Video controller register
+	const	SCR_MO: address =  $FE20; // screen mode register 
+	const	OSRDCH: address =  $FFE0; // Read Character
+	const	CUR_OF: address =  $FE01; // Cursor off
+
+	// BBC cursors		        
+   const CUR_U: byte = $8B;
+   const CUR_D: byte = $8A;
+   const CUR_L: byte = $88;
+   const CUR_R: byte = $89;
+
+@endif
+
+@ifdef APPLEII
+   
+// Apple II cursors		        
+   const CUR_U: byte = 11;
+   const CUR_D: byte = 10;
+   const CUR_L: byte = 8;
+   const CUR_R: byte = 21;
+
+@endif
+
+@ifdef PET
+   
+// PET numeric keypad cursors		        
+   const CUR_U: byte = 56;
+   const CUR_D: byte = 53;
+   const CUR_L: byte = 52;
+   const CUR_R: byte = 54;
+
+
+@endif
+
+@ifdef VIC20
+   
+// VIC numeric keypad cursors		        
+   const CUR_U: byte = 81;
+   const CUR_D: byte = 65;
+   const CUR_L: byte = 79;
+   const CUR_R: byte = 80;
+
+@endif
+
+@ifdef C64
+   
+// VIC numeric keypad cursors		        
+   const CUR_U: byte = 81;
+   const CUR_D: byte = 65;
+   const CUR_L: byte = 79;
+   const CUR_R: byte = 80;
+
+@endif
+
+
+// Function prototypes
+  	procedure cls();
+	procedure cursor_home();
+	procedure move_to(_text_x: byte, _text_y: byte);
+	procedure wait_vsync();
+	procedure text_colour(_chosen_text_colour: byte);
+	procedure print_string(in_str: pointer, CRLF: byte = True);
+	function get_key():byte;
+	procedure wait_key();
+	procedure clear_buffer();
+	procedure beep();
+	procedure DefineScreen();
+    procedure put_char_at(_atx,_aty,_atchar:byte);
+    procedure put_ch(CH:byte);
+    function get_char_at(_col,_row:byte):byte;
+	function str_compare(str1,str2:pointer):byte;
+
+
+
+@ifdef BBCM
+   @include "bbc_text_mode.ras"
+@endif
+
+@ifdef APPLEII
+   @include "apple_text_mode.ras"
+@endif
+
+@ifdef PET
+   @include "pet_text_mode.ras"
+@endif
+
+@ifdef VIC20
+   @include "vic_text_mode.ras"
+@endif
+
+@ifdef C64
+   @include "c64_text_mode.ras"
+@endif
+
+
+	// Compare two strings for equality
+	function str_compare(str1,str2:pointer):byte;
+	var
+		si:byte=0;
+		_match:byte=False;
+	begin
+		si:=0;
+		_match:=False;
+
+		while(str1[si]>0 and str1[si]<>13) do
+		begin
+			if(str1[si]=str2[si]) then
+			begin
+				_match:=True;
+			end
+			else
+			begin	
+				_match:=False;
+			end;
+
+			inc(si);
+		end;
+
+		returnvalue(_match);
+	end;
+
+end.

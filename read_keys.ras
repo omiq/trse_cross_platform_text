@@ -1,6 +1,6 @@
 program read_keys;
 @projectsettings "system" BBCM
-@use textmode
+@use txt
 
 var
 	press_str: string = ("PRESS A KEY",0);
@@ -8,28 +8,28 @@ var
 
 begin
 
-		Textmode::cls();
-		//Textmode::move_to(0,0);
-		//Textmode::put_ch(64);
-		Textmode::move_to(0,2);
-		Textmode::print_string(#press_str, True);
+		txt::cls();
+		//txt::move_to(0,0);
+		//txt::put_ch(64);
+		txt::move_to(0,2);
+		txt::print_string(#press_str, True);
 		
 	
 		in_key:=0;
 		while (1) do
 		begin
 			// Get key
-			in_key:=Textmode::get_key();
+			in_key:=txt::get_key();
 			if(in_key<>13) then
 			begin
-				Textmode::move_to(0,0);
-				Textmode::put_ch(in_key);
-				Textmode::put_char_at(1,1,in_key);
+				txt::move_to(0,0);
+				txt::put_ch(in_key);
+				txt::put_char_at(1,1,in_key);
 			end;
 		end;
-		Textmode::cls();
-		Textmode::move_to(0,0);
-		Textmode::print_string("DONE", True);
+		txt::cls();
+		txt::move_to(0,0);
+		txt::print_string("DONE", True);
 		loop();
 end.
 

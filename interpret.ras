@@ -1,5 +1,5 @@
 program interpret;
-@use textmode
+@use txt
 var  
    i: byte =0; 
    user_input: pointer;
@@ -10,24 +10,24 @@ var
 begin
 	
 
-	Textmode::print_string("ENTER PASSWORD", True);
-	user_input:=Textmode::get_string();
+	txt::print_string("ENTER PASSWORD", True);
+	user_input:=txt::get_string();
 
-	Textmode::print_string("", True);
+	txt::print_string("", True);
 	
-	match:=Textmode::str_compare(user_input,#pass);
+	match:=txt::str_compare(user_input,#pass);
 	
-	Textmode::print_string("", True);
+	txt::print_string("", True);
 
 	if(match=True) then
 	begin
-		Textmode::print_string("YES! ", False);
-		Textmode::print_string(user_input, True);
+		txt::print_string("YES! ", False);
+		txt::print_string(user_input, True);
 	end
 	else
 	begin
-		Textmode::print_string("WRONG ", False);
-		Textmode::print_string(user_input, True);
+		txt::print_string("WRONG ", False);
+		txt::print_string(user_input, True);
 	end;
 
 

@@ -216,19 +216,19 @@
 	while (_input_key<>13) do
 	begin
 
-		_input_key:=Textmode::get_key();
+		_input_key:=txt::get_key();
 		
 		if(_input_key > 0 and _input_key < 255) then
 		begin
-			Textmode::put_ch(_input_key);
+			txt::put_ch(_input_key);
 			p_input_buffer[bp]:=_input_key;
 			bp:=bp+1;
 		end;
 
 		if(_input_key = 20) then
 		begin
-			Textmode::put_ch(32);			
-			Textmode::put_ch(20);	
+			txt::put_ch(32);			
+			txt::put_ch(20);	
 			bp:=bp-2;
 
 		end;

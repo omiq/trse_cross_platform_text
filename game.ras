@@ -1,5 +1,5 @@
 program game;
-@use textmode
+@use txt
 
 var
 	
@@ -20,10 +20,10 @@ var
 	procedure init();
 	begin
 		// Clear screen,
-		Textmode::cls();
-		Textmode::cursor_off();
-		Textmode::move_to(3,0);
-		Textmode::print_string(#instruction_str, False);
+		txt::cls();
+		txt::cursor_off();
+		txt::move_to(3,0);
+		txt::print_string(#instruction_str, False);
 
 		lives:=3;
 		game_running:=true;
@@ -34,14 +34,14 @@ var
 		// Side borders
 		fori y:= 0 to 23 do
 		begin
-			Textmode::put_char_at(0,y,35);
-			Textmode::put_char_at(21,y,35);		
+			txt::put_char_at(0,y,35);
+			txt::put_char_at(21,y,35);		
 		end;
 		
 		// Loot
 		for i:=0 to total_loot_count do
 		begin
-			Textmode::put_char_at(mod(random(), 20)+1,mod(random(), 21)+1,36);
+			txt::put_char_at(mod(random(), 20)+1,mod(random(), 21)+1,36);
 		end;
 	
 	
@@ -50,14 +50,14 @@ var
 		begin
 			x:=mod(random(), 20)+1;
 			y:=mod(random(), 22)+1;
-			if(Textmode::get_char_at(x,y)=$20) then Textmode::put_char_at(x,y,42);
+			if(txt::get_char_at(x,y)=$20) then txt::put_char_at(x,y,42);
 		end;
 		
 		
 		// Initialise start position
 		x:=10;
 		y:=10;	
-		Textmode::put_char_at(x,y,64);
+		txt::put_char_at(x,y,64);
 	end;
 
 begin
@@ -71,7 +71,7 @@ begin
 		begin
 			
 			// Get keyboard input
-			key_press:=Textmode::get_key();
+			key_press:=txt::get_key();
 	
 				// Backup the current position			
 				oldx:=x;
@@ -81,38 +81,38 @@ begin
 				case key_press of
 			       
 					// Cursor keys defined in unit		        
-	    			    Textmode::CUR_U: if(y>0) then dec(y);
-			        Textmode::CUR_D: if(y<21) then inc(y);
-	   			    Textmode::CUR_L: if(x>0) then dec(x);
-			        Textmode::CUR_R: if(x<22) then inc(x);
+	    			    txt::CUR_U: if(y>0) then dec(y);
+			        txt::CUR_D: if(y<23) then inc(y);
+	   			    txt::CUR_L: if(x>0) then dec(x);
+			        txt::CUR_R: if(x<21) then inc(x);
 			   
 				end;
 				
 	
 				// Find out if the space we want to move to
 				// is empty or if it contains anything special
-				charat:=Textmode::get_char_at(x,y);
+				charat:=txt::get_char_at(x,y);
 				togglebit(charat,7,0);
 	
 				
 				// $20 is space
 				case charat of
-				$20:		Textmode::put_char_at(x,y,64);
+				$20:		txt::put_char_at(x,y,64);
 		
 				36:
 					begin
-						Textmode::move_to(3,0);
-						Textmode::print_string("WOOT!", False);
-						Textmode::put_char_at(x,y,64);
+						txt::move_to(3,0);
+						txt::print_string("WOOT!", False);
+						txt::put_char_at(x,y,64);
 						inc(collected_loot_count);
 	
 					end;
 					
 				42:
 					begin
-						Textmode::move_to(3,0);
-						Textmode::print_string("BOOM!", False);
-						Textmode::put_char_at(x,y,64);
+						txt::move_to(3,0);
+						txt::print_string("BOOM!", False);
+						txt::put_char_at(x,y,64);
 						dec(lives);
 					end;	
 				else
@@ -129,21 +129,21 @@ begin
 			
 			end;
 		
-		Textmode::cls();
-		Textmode::move_to(0,4);
-		Textmode::print_string("GAME OVER!", True);		
+		txt::cls();
+		txt::move_to(0,4);
+		txt::print_string("GAME OVER!", True);		
 		
 		if(lives=0) then 
 		begin
 
-			Textmode::print_string("YOU LOSE!", True);
+			txt::print_string("YOU LOSE!", True);
 		end
 		else
 		begin
-			Textmode::print_string("YOU WIN!", True);
+			txt::print_string("YOU WIN!", True);
 		end;
 
-		Textmode::wait_key();
+		txt::wait_key();
 
 	end;
 		
