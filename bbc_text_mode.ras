@@ -15,7 +15,24 @@
 
 	procedure cls();
 	begin
-		screen_mode(7);	
+
+		_A:=0;
+		_X:=1;
+		call(OSBYTE);
+
+		if(_X=0) then
+		begin
+			// Electron
+			screen_mode(6);	
+			temp_address_p:=$6000;
+		end
+		else
+		begin
+			// if BBC
+			screen_mode(7);	
+			temp_address_p:=$7C00;
+		end;
+
 		_A:=12;
 		call(OSWRCH);
 		_A:=30;
@@ -35,8 +52,6 @@
 		begin
 			return;
 		end;
-
-		temp_address_p:=$7C00;
 
 		fori y:= 0 to 24 do
 		begin
