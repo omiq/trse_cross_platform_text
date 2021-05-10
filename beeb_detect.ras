@@ -1,0 +1,16 @@
+program beeb_detect;
+@use txt
+var  
+   i: byte; 
+
+begin
+
+	txt::cls();
+	
+	_A:=0;
+	_X:=1;
+	call(txt::OSBYTE);
+	txt::print_string("Electron = 0, BBC = 1-5",True);
+	txt::print_dec(_X, True);
+
+end.
