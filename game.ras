@@ -71,10 +71,10 @@ begin
 		begin
 			
 			// Update lives left
-			txt::put_num_at(20,0,lives);
+			txt::put_dec_at(20,0,lives);
 
 			// Update loot to get
-			txt::put_num_at(1,0,total_loot_count-collected_loot_count);
+			txt::put_dec_at(1,0,total_loot_count-collected_loot_count);
 			
 			
 			// Get keyboard input

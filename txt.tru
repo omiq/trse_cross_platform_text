@@ -8,9 +8,11 @@ var
 		0,0,0,0,0,0,
 		0,0,0,0,0,0,
 		0,0,0,0,0,0);
-   screen_memory: pointer;
-
-
+	screen_memory: pointer;
+	max_digits,next_digit: integer;
+	temp_num_p: pointer;
+	temp_num: integer;
+	temp_i: byte=0;
 
 @ifdef BBCM
 	// Address Locations of operating system functions
@@ -139,23 +141,163 @@ var
 		returnvalue(_match);
 	end;
 
-	procedure put_num_at(_natx,_naty,_nat:byte);
+
+	procedure put_dec_at(_natx,_naty,_nat:byte);
 	var
 		tnat:byte;
 	begin
-		if(_nat>10) then
-		begin
-			tnat:=_nat/10;
-			put_char_at(_natx,_naty,tnat+48);
 
-			tnat:=_nat-10;
-			if(tnat=10) then tnat:=0;
-			put_char_at(_natx+1,_naty,tnat+48);
+		
+		max_digits:=0;
+		next_digit:=0;
+		temp_num_p:=0;
+		temp_num:=0;
+		temp_i:=0;
+
+		if(_nat>9) then
+		begin	
+			temp_num:=_nat;
+			while(temp_num>1) do
+			begin
+				inc(max_digits);
+				temp_num:=temp_num/10;
+			end;
+
+			//20
+
+			if(_nat >= 100) then 
+			begin
+				// Left
+				temp_num:=_nat/100;
+				put_char_at(_natx,_naty,temp_num+48);
+
+				// middle 
+				// 190
+				temp_num:=(_nat-100)/10;
+				if(temp_num>9) then temp_num:=temp_num-10;
+				put_char_at(_natx+1,_naty,temp_num+48);
+
+				// right digit
+				temp_num:=_nat-(_nat/(10)*10);
+				put_char_at(_natx+2,_naty,temp_num+48);
+
+			end
+			else
+			begin
+
+				// left digit
+				temp_num:=_nat/(10);
+				put_char_at(_natx,_naty,temp_num+48);
+
+				// right digit 
+				temp_num:=_nat-(_nat/(10)*10);
+				put_char_at(_natx+1,_naty,temp_num+48);
+			end;
+
 		end
 		else
 		begin
 			put_char_at(_natx,_naty,_nat+48);
 		end;
 	end;
+
+
+	procedure print_dec(_in_n:byte, _add_cr:byte);
+	begin
+
+		
+		max_digits:=0;
+		next_digit:=0;
+		temp_num_p:=0;
+		temp_num:=0;
+		temp_i:=0;
+
+		if(_in_n>9) then
+		begin	
+			temp_num:=_in_n;
+			while(temp_num>1) do
+			begin
+				inc(max_digits);
+				temp_num:=temp_num/10;
+			end;
+
+
+			if(_in_n >= 100) then 
+			begin
+				// Left
+				temp_num:=_in_n/100;
+				put_ch(temp_num+48);
+
+				// middle 
+				// 190
+				temp_num:=(_in_n-100)/10;
+				if(temp_num>9) then temp_num:=temp_num-10;
+				put_ch(temp_num+48);
+
+				// right digit
+				temp_num:=_in_n-(_in_n/(10)*10);
+				put_ch(temp_num+48);
+
+			end
+			else
+			begin
+
+				// left digit
+				temp_num:=_in_n/(10);
+				put_ch(temp_num+48);
+
+				// right digit 
+				temp_num:=_in_n-(_in_n/(10)*10);
+				put_ch(temp_num+48);
+			end;
+
+		end
+		else
+		begin
+			put_ch(_in_n+48);
+		end;
+
+		if(_add_cr) then put_ch(13);
+	end;
+
+
+	function str_to_dec(_in_str:pointer):byte;
+	begin
+
+		next_digit:=0;
+		temp_num:=0;
+		temp_i:=0;
+		max_digits:=0;
+
+		while(_in_str[max_digits]<>0) do
+		begin
+			inc(max_digits);
+		end;
+		dec(max_digits);
+
+		for temp_i:=0 to max_digits do
+		begin
+
+			if(_in_str[temp_i]=48) then
+			begin
+				next_digit:=0;
+			end
+			else
+			begin
+				next_digit:=_in_str[temp_i]-48;
+			end;
+
+			temp_num:=(temp_num*10)+next_digit;
+		end;
+
+		returnvalue(temp_num);
+	end;	
+
+	function get_dec():integer;
+	begin
+		temp_num_p:=get_string();
+		returnvalue(str_to_dec(temp_num_p));
+	end;
+
 
 end.
