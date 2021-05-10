@@ -1,0 +1,24 @@
+program hello_world;
+
+@use txt
+
+var
+	welcome_str: string = ("HELLO!",0);
+
+begin
+
+	// Clear screen,
+	// Set cursor to 0,0
+	txt::cls();
+	
+	// Welcome message 
+	txt::move_to(0,0);
+	txt::print_string(#welcome_str, False);
+	txt::move_to(1,10);
+	txt::print_string(#welcome_str, False);
+	txt::move_to(2,20);
+	txt::print_string(#welcome_str, False);	
+
+	loop();
+end.
+

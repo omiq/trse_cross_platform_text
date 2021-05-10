@@ -13,6 +13,7 @@ var
 	temp_num_p: pointer;
 	temp_num: integer;
 	temp_i: byte=0;
+	this_bbc: byte=0;
 
 @ifdef BBCM
 	// Address Locations of operating system functions

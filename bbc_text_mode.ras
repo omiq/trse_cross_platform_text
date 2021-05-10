@@ -20,7 +20,8 @@
 		_A:=0;
 		_X:=1;
 		call(OSBYTE);
-		returnvalue(_X);
+		this_bbc:=_X;
+		returnvalue(this_bbc);
 	end;
 
 	procedure cls();
@@ -62,20 +63,26 @@
 		if(current_bbc()=0) then
 		begin
 			// Electron
-			temp_address_p:=$6000;
+			temp_address_p:=$6008;
+			fori y:= 0 to 24 do
+			begin
+				ytab[y]:=temp_address_p;
+				temp_address_p:=temp_address_p+49;			
+			end;
+
+
 		end
 		else
 		begin
 			// if BBC
 			temp_address_p:=$7C00;
+			fori y:= 0 to 24 do
+			begin
+				ytab[y]:=temp_address_p;
+				temp_address_p:=temp_address_p+40;			
+			end;
 		end;
 
-
-		fori y:= 0 to 24 do
-		begin
-			ytab[y]:=temp_address_p;
-			temp_address_p:=temp_address_p+40;			
-		end;
 	end;
 
 	procedure move_to(_text_x: byte, _text_y: byte);
@@ -175,7 +182,8 @@
 	begin
 		_A:=CH;
 		_X:=0;
-		call(OSWRCH);
+		
+		if(CH=13) then call(OSNEWL) else call(OSWRCH);
 	end;
 
 	// Clear keyboard buffer
@@ -222,6 +230,16 @@
 	end;	
 
 
+	function char_under_cursor():byte;
+	var
+		r_char: byte=0;
+	begin
+
+		_A:=$87;
+		call(OSBYTE);
+		r_char:=_X;
+		returnvalue(r_char);
+	end;
 
 
 	function get_char_at(_col,_row:byte):byte;
@@ -230,9 +248,16 @@
 		_line_addr: pointer;
 	begin
 
-
-		_line_addr:=ytab[_row];
-		_char:=_line_addr[_col];
+		if(this_bbc>0) then
+		begin
+			_line_addr:=ytab[_row];
+			_char:=_line_addr[_col];
+		end
+		else
+		begin
+			move_to(_col,_row);
+			_char:=char_under_cursor();
+		end;
 
 		returnvalue(_char);
 	end;
@@ -240,9 +265,16 @@
 	procedure put_char_at(_atx,_aty,_atchar:byte);
 	begin
 
-		screen_memory:=ytab[_aty];
-		screen_memory[_atx]:=_atchar;
-
+		if(this_bbc>0) then
+		begin
+			screen_memory:=ytab[_aty];
+			screen_memory[_atx]:=_atchar;
+		end
+		else
+		begin
+			move_to(_atx,_aty);
+			put_ch(_atchar);
+		end;
 	end;
 	
 	

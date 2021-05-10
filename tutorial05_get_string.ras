@@ -1,0 +1,29 @@
+program Get_String_Test;
+@use txt
+var  
+   i: byte; 
+   user_input: pointer;
+
+
+begin
+	
+	txt::cls();
+	
+	// String input
+	txt::print_string("WELCOME, WHAT IS YOUR NAME?", True);
+	user_input:=txt::get_string();
+	txt::print_string("HELLO ", False);
+	txt::print_string(user_input, True);
+
+	// Number input
+	txt::print_string("", True);
+	txt::print_string("WHAT IS YOUR AGE?", True);
+	i:=txt::get_dec();
+	txt::print_string("YOU ARE ", False);
+	txt::print_dec(i, False);
+	txt::print_string("? WOW, YOU DON'T LOOK A DAY OLDER THAN ", False);
+	txt::print_dec(i-1, True);
+
+
+	loop();
+end.
