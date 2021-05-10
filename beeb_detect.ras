@@ -12,5 +12,6 @@ begin
 	call(txt::OSBYTE);
 	txt::print_string("Electron = 0, BBC = 1-5",True);
 	txt::print_dec(_X, True);
-
+	txt::print_string("SCREEN MODE ",False);	
+	txt::print_dec(peek(^$355,0), True);
 end.

@@ -6,6 +6,8 @@
 	procedure screen_mode(selected_mode:byte);
 	begin
 
+		_X:=0;
+		_Y:=0;
 		_A:=22;
 		call(OSWRCH);
 		_A:=selected_mode; // Again, need to replace with a mode param
@@ -13,26 +15,30 @@
 
 	end;
 
-	procedure cls();
+	function current_bbc():byte;
 	begin
-
 		_A:=0;
 		_X:=1;
 		call(OSBYTE);
+		returnvalue(_X);
+	end;
 
-		if(_X=0) then
+	procedure cls();
+	begin
+
+		if(current_bbc()=0) then
 		begin
 			// Electron
 			screen_mode(6);	
-			temp_address_p:=$6000;
 		end
 		else
 		begin
 			// if BBC
 			screen_mode(7);	
-			temp_address_p:=$7C00;
 		end;
 
+		_X:=0;
+		_Y:=0;
 		_A:=12;
 		call(OSWRCH);
 		_A:=30;
@@ -48,10 +54,22 @@
 		y:byte;
 	begin
 
-			if(ytab[0]<>0) then
+		if(ytab[0]<>0) then
 		begin
 			return;
 		end;
+
+		if(current_bbc()=0) then
+		begin
+			// Electron
+			temp_address_p:=$6000;
+		end
+		else
+		begin
+			// if BBC
+			temp_address_p:=$7C00;
+		end;
+
 
 		fori y:= 0 to 24 do
 		begin

@@ -21,6 +21,7 @@ var
 	begin
 		// Clear screen,
 		txt::cls();
+		txt::screen_mode(7);
 		txt::cursor_off();
 		txt::move_to(3,0);
 		txt::print_string(#instruction_str, False);
