@@ -16,6 +16,7 @@ Vic 20
 
 ```
 // Function prototypes
+
   	procedure cls();
 	procedure cursor_home();
 	procedure move_to(_text_x: byte, _text_y: byte);
@@ -31,4 +32,8 @@ Vic 20
         procedure put_ch(CH:byte);
         function get_char_at(_col,_row:byte):byte;
 	function str_compare(str1,str2:pointer):byte;
+	procedure put_dec_at(_natx,_naty,_nat:byte);
+	procedure print_dec(_in_n:byte, _add_cr:byte);
+	function str_to_dec(_in_str:pointer):byte;
+	function get_dec():integer;
 ```
