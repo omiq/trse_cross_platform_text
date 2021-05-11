@@ -4,7 +4,7 @@ Cross-platform Text Mode Unit for TRSE users.
 
 Currently offers input and output for 
 
-BBC
+BBC Mode 7 / Electron Mode 6
 
 Apple II
 
@@ -13,6 +13,8 @@ PET
 C64
 
 Vic 20
+
+Atari 800
 
 ```
 // Function prototypes
