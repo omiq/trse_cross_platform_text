@@ -4,13 +4,18 @@ program hello_world;
 
 var
 	welcome_str: string = ("HELLO!",0);
-
+	ptr:pointer;
+	i:byte;
 begin
 
 	// Clear screen,
 	// Set cursor to 0,0
 	txt::cls();
-	
+	txt::put_char_at(10,10,33);
+	txt::cursor_off();
+	txt::move_to(9,9);
+	txt::put_ch(62);
+
 	// Welcome message 
 	txt::move_to(0,0);
 	txt::print_string(#welcome_str, False);

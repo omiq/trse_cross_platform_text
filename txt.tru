@@ -101,13 +101,16 @@ var
 
 
 
+@ifdef APPLEII
+   @include "apple_text_mode.ras"
+@endif
+
+@ifdef ATARI800
+   @include "atari_text_mode.ras"
+@endif
 
 @ifdef BBCM
    @include "bbc_text_mode.ras"
-@endif
-
-@ifdef APPLEII
-   @include "apple_text_mode.ras"
 @endif
 
 @ifdef PET
