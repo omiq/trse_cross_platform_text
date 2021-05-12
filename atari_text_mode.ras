@@ -45,6 +45,7 @@
 
 	procedure wait_vsync();
 	begin
+		
 	end;
 	
 
