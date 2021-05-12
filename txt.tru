@@ -168,8 +168,7 @@ var
 	var
 		tnat:byte;
 	begin
-
-		
+	
 		max_digits:=0;
 		next_digit:=0;
 		temp_num_p:=0;
@@ -192,7 +191,6 @@ var
 				put_char_at(_natx,_naty,temp_num+48);
 
 				// middle 
-				// 190
 				temp_num:=(_nat-100)/10;
 				if(temp_num>9) then temp_num:=temp_num-10;
 				put_char_at(_natx+1,_naty,temp_num+48);
@@ -200,7 +198,7 @@ var
 				// right digit
 				temp_num:=_nat-(_nat/(10)*10);
 				put_char_at(_natx+2,_naty,temp_num+48);
-
+				move_to(_natx+3,_naty);
 			end
 			else
 			begin
@@ -212,9 +210,9 @@ var
 				// right digit 
 				temp_num:=_nat-(_nat/(10)*10);
 				put_char_at(_natx+1,_naty,temp_num+48);
+				move_to(_natx+2,_naty);
 			end;
 
-			move_to(_natx+max_digits,_naty);
 
 		end
 		else
@@ -283,6 +281,9 @@ var
 	begin
 		tx:=createinteger(peek(^86,0),peek(^85,0));
 		ty:=peek(^84,0);
+		_A:=0;
+		_X:=0;
+		_Y:=0;
 		put_dec_at(tx,ty,_in_n);
 		if(_add_cr=True) then cursor_return;
 	end;

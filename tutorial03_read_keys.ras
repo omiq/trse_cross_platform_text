@@ -18,21 +18,19 @@ begin
 
 	
 		in_key:=0;
-		while (1) do
+		while (in_key<>81) do
 		begin
 			// Get key
 			in_key:=txt::get_key();
-			if(in_key<>13) then
-			begin
-				txt::move_to(0,0);
-				txt::print_string("   ",False);
-				txt::put_dec_at(0,0,in_key);
-				
-				txt::move_to(0,1);
-				txt::put_ch(in_key);
-				txt::put_char_at(1,1,in_key);
-			end;
+			txt::move_to(10,0);
+			txt::print_string("   ",False);
+			txt::move_to(10,0);
+			txt::print_dec(in_key, False);
+			
+			txt::put_dec_at(10,2,in_key);
+			txt::put_char_at(16,2,in_key);
 		end;
+		
 		txt::cls();
 		txt::move_to(0,0);
 		txt::print_string("DONE", True);
