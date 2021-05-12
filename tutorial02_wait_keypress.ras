@@ -10,6 +10,7 @@ begin
 	// Clear screen,
 	// Set cursor to 0,0
 	txt::cls();
+	txt::cursor_off();
 	
 	// Welcome message 
 	txt::move_to(10,10);
@@ -18,6 +19,7 @@ begin
 	// Wait for keypress
 	txt::wait_key();
 	txt::print_string("DONE", False);	
-
+	txt::beep();
+	loop();
 end.
 

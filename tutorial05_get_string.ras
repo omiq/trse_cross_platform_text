@@ -3,11 +3,26 @@ program Get_String_Test;
 var  
    i: byte; 
    user_input: pointer;
-
+	myint: integer;
 
 begin
 	
 	txt::cls();
+	txt::cursor_off();
+	
+	txt::move_to(0,0);
+	myint:=createinteger(peek(^86,0),peek(^85,0));
+	
+	txt::print_string("Y:", True);
+	txt::print_dec(peek(^84,0),True);
+
+	
+	txt::print_string("X: ",True);
+	txt::print_dec(myint,True);
+	
+	
+	
+
 	
 	// String input
 	txt::print_string("WELCOME, WHAT IS YOUR NAME?", True);
@@ -16,13 +31,15 @@ begin
 	txt::print_string(user_input, True);
 
 	// Number input
-	txt::print_string("", True);
+	txt::print_string(" ", True);
 	txt::print_string("WHAT IS YOUR AGE?", True);
 	i:=txt::get_dec();
-	txt::print_string("YOU ARE ", False);
+	
+	txt::print_string(" ", True);
 	txt::print_dec(i, False);
-	txt::print_string("? WOW, YOU DON'T LOOK A DAY OLDER THAN ", False);
-	txt::print_dec(i-1, True);
+	txt::print_string("? WOW, YOU DON'T LOOK A DAY", True);
+	txt::print_string("OLDER THAN ", False);
+	txt::print_dec(i-1, True); 
 
 
 	loop();

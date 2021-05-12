@@ -187,17 +187,21 @@
 		_line_addr:=ytab[_row];
 		_char:=_line_addr[_col];
 
-		returnvalue(_char);
+		returnvalue(togglebit(_char,7,0));
 	end;
 
 	procedure put_char_at(_atx,_aty,_atchar:byte);
 	begin
 
 		screen_memory:=ytab[_aty];
-		screen_memory[_atx]:=_atchar;
+		screen_memory[_atx]:=togglebit(_atchar,7,1);
 
 	end;
 	
+	procedure cursor_return();
+	begin
+		put_ch(13);
+	end;
 	
    function get_string():integer;
    var

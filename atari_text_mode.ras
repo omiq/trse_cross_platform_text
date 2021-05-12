@@ -23,9 +23,9 @@
 	var
 
 	begin
-		asm("	clc");
 		poke(^84,0,_text_y);
 		poke(^85,0,_text_x);
+		poke(^86,0,0);
 	end;	
 
 
@@ -37,7 +37,8 @@
 
 	procedure cls();
 	begin
-
+		//poke(^766,0,1); //shows edit chars
+		poke(^82,0,0); // left margin to zero
 		DefineScreen();
 		cursor_home();
 	end;	
@@ -50,20 +51,14 @@
 	// Put a character at current cursor location
 	procedure put_ch(CH:byte);
 	begin
-		_X:=0;
-		_A:=0;
-		poke(^$0342,0,11);
-		poke(^$0349,0,0);
-		poke(^$0348,0,0);
 		_A:=CH;
-		call(^$E456);
+		call(^$F6A4);
 	end;
 
 	// Clear keyboard buffer
 	procedure clear_buffer();
 	begin
-		
-		poke(^198,0,0);
+		//poke(^764,0,255);
 	end;
 
 
@@ -71,33 +66,19 @@
 	var
 		ink:byte=0;
 	begin
-		ink:=0;
-		while(ink=0) do
-		begin
-			ink:=peek(^764,0);
-		end;
+		call(^$F6E2);
+		ink:=_A;
 		returnvalue((ink));
 	end;	
 
 	procedure wait_key();
-	var
-		tmp_key:byte=0;
 	begin
-
-		tmp_key:=0;
-		while(tmp_key=0) do
-		begin
-			tmp_key:=peek(^198,0);
-		end;	
-
-		clear_buffer();
+		get_key();
 	end;
 
 	procedure beep();
-	var
-
-	begin
-
+	begin	
+		put_ch(253);
 	end;	
 
 	//CURSOR_ON
@@ -119,32 +100,28 @@
 		_char: byte=0;
 		_line_addr: pointer;
 	begin
-
-
 		_line_addr:=ytab[_row];
 		_char:=_line_addr[_col];
 
-		returnvalue(_char);
+		returnvalue(_char+32);
 	end;
 
 	procedure put_char_at(_atx,_aty,_atchar:byte);
 	begin
 
 		screen_memory:=ytab[_aty];
-		screen_memory[_atx]:=_atchar;
+		screen_memory[_atx]:=_atchar-32;
 
 	end;
 
 	procedure cursor_return();
-	begin
-
-		put_ch(10);
-
+	begin	
+		put_ch(155);
 	end;
 
 	procedure cursor_down();
 	begin
-		put_ch(13);
+		put_ch(29);
 	end;
 
 	procedure cursor_graphic();
@@ -166,7 +143,6 @@
 		if(CRLF) then
 		begin
 			cursor_return();
-			cursor_down();
 		end;
 	end;
 	
@@ -186,7 +162,7 @@
  	
  	txt::cursor_on();
  	
-	while (_input_key<>13) do
+	while (_input_key<>155) do
 	begin
 
 		_input_key:=txt::get_key();
@@ -198,10 +174,10 @@
 			bp:=bp+1;
 		end;
 
-		if(_input_key = 20) then
+		if(_input_key = 126) then
 		begin
 			txt::put_ch(32);			
-			txt::put_ch(20);	
+			txt::put_ch(30);	
 			bp:=bp-2;
 
 		end;

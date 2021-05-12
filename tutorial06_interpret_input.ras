@@ -9,15 +9,17 @@ var
 
 begin
 	
+	txt::cls();
+	
 
 	txt::print_string("ENTER PASSWORD", True);
 	user_input:=txt::get_string();
 
-	txt::print_string("", True);
+	txt::print_string(" ", True);
 	
 	match:=txt::str_compare(user_input,#pass);
 	
-	txt::print_string("", True);
+	txt::print_string(" ", True);
 
 	if(match=True) then
 	begin
@@ -31,5 +33,6 @@ begin
 	end;
 
 
+	
 	loop();
 end.

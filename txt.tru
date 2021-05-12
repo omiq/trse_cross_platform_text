@@ -57,7 +57,7 @@ var
 
 @ifdef VIC20
    
-// VIC numeric keypad cursors		        
+// VIC QAOP		        
    const CUR_U: byte = 81;
    const CUR_D: byte = 65;
    const CUR_L: byte = 79;
@@ -67,11 +67,21 @@ var
 
 @ifdef C64
    
-// VIC numeric keypad cursors		        
+// C64 QAOP		        
    const CUR_U: byte = 81;
    const CUR_D: byte = 65;
    const CUR_L: byte = 79;
    const CUR_R: byte = 80;
+
+@endif
+
+@ifdef ATARI800
+   
+// Atari cursors		        
+   const CUR_U: byte = 28;
+   const CUR_D: byte = 29;
+   const CUR_L: byte = 30;
+   const CUR_R: byte = 31;
 
 @endif
 
@@ -96,7 +106,8 @@ var
 	procedure print_dec(_in_n:byte, _add_cr:byte);
 	function str_to_dec(_in_str:pointer):byte;
 	function get_dec():integer;
-
+	procedure cursor_on();
+	procedure cursor_off();
 
 
 
@@ -135,7 +146,7 @@ var
 		si:=0;
 		_match:=False;
 
-		while(str1[si]>0 and str1[si]<>13) do
+		while(str1[si]>0 and str1[si]<>155) do
 		begin
 			if(str1[si]=str2[si]) then
 			begin
@@ -174,8 +185,6 @@ var
 				temp_num:=temp_num/10;
 			end;
 
-			//20
-
 			if(_nat >= 100) then 
 			begin
 				// Left
@@ -205,19 +214,20 @@ var
 				put_char_at(_natx+1,_naty,temp_num+48);
 			end;
 
+			move_to(_natx+max_digits,_naty);
+
 		end
 		else
 		begin
 			put_char_at(_natx,_naty,_nat+48);
+			move_to(_natx+1,_naty);
 		end;
 	end;
 
-
+@ifndef ATARI800
 	procedure print_dec(_in_n:byte, _add_cr:byte);
 	begin
-
 		
-		max_digits:=0;
 		next_digit:=0;
 		temp_num_p:=0;
 		temp_num:=0;
@@ -225,28 +235,21 @@ var
 
 		if(_in_n>9) then
 		begin	
-			temp_num:=_in_n;
-			while(temp_num>1) do
-			begin
-				inc(max_digits);
-				temp_num:=temp_num/10;
-			end;
 
-
-			if(_in_n >= 100) then 
+			if(_in_n > 99) then 
 			begin
 				// Left
 				temp_num:=_in_n/100;
 				put_ch(temp_num+48);
 
 				// middle 
-				// 190
-				temp_num:=(_in_n-100)/10;
+				// 12
+				temp_num:=_in_n/10-((_in_n/100)*10);
 				if(temp_num>9) then temp_num:=temp_num-10;
 				put_ch(temp_num+48);
 
 				// right digit
-				temp_num:=_in_n-(_in_n/(10)*10);
+				temp_num:=mod(_in_n,10);
 				put_ch(temp_num+48);
 
 			end
@@ -254,11 +257,11 @@ var
 			begin
 
 				// left digit
-				temp_num:=_in_n/(10);
+				temp_num:=_in_n/10;
 				put_ch(temp_num+48);
 
-				// right digit 
-				temp_num:=_in_n-(_in_n/(10)*10);
+				// right digit
+				temp_num:=_in_n-((_in_n/10)*10);
 				put_ch(temp_num+48);
 			end;
 
@@ -268,9 +271,23 @@ var
 			put_ch(_in_n+48);
 		end;
 
-		if(_add_cr) then put_ch(13);
+		if(_add_cr) then cursor_return();
+	end;
+@endif
+
+@ifdef ATARI800
+
+	procedure print_dec(_in_n:byte, _add_cr:byte);
+	var
+		tx,ty:integer;
+	begin
+		tx:=createinteger(peek(^86,0),peek(^85,0));
+		ty:=peek(^84,0);
+		put_dec_at(tx,ty,_in_n);
+		if(_add_cr=True) then cursor_return;
 	end;
 
+@endif
 
 	function str_to_dec(_in_str:pointer):byte;
 	begin
@@ -280,7 +297,7 @@ var
 		temp_i:=0;
 		max_digits:=0;
 
-		while(_in_str[max_digits]<>0) do
+		while(_in_str[max_digits]>0) do
 		begin
 			inc(max_digits);
 		end;

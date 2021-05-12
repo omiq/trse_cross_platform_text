@@ -5,15 +5,17 @@ program read_keys;
 var
 	press_str: string = ("PRESS A KEY",0);
 	in_key: byte;
+	i:byte;
 
 begin
 
 		txt::cls();
-		//txt::move_to(0,0);
-		//txt::put_ch(64);
-		txt::move_to(0,2);
-		txt::print_string(#press_str, True);
+		txt::cursor_off();
+
+		txt::move_to(10,10);
+		txt::print_string("PRESS A KEY", False);
 		
+
 	
 		in_key:=0;
 		while (1) do
@@ -23,6 +25,10 @@ begin
 			if(in_key<>13) then
 			begin
 				txt::move_to(0,0);
+				txt::print_string("   ",False);
+				txt::put_dec_at(0,0,in_key);
+				
+				txt::move_to(0,1);
 				txt::put_ch(in_key);
 				txt::put_char_at(1,1,in_key);
 			end;
