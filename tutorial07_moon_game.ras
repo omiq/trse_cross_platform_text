@@ -74,6 +74,8 @@ begin
 			txt::put_dec_at(20,0,lives);
 
 			// Update loot to get
+			txt::move_to(1,0);
+			txt::print_string("  ",False);
 			txt::put_dec_at(1,0,total_loot_count-collected_loot_count);
 			
 			
